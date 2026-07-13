@@ -1,0 +1,685 @@
+<title>IL Rules of the Road — Renewal Crammer</title>
+<style>
+  @media (prefers-reduced-motion: reduce) {
+    * { animation-duration: 0.001ms !important; transition-duration: 0.001ms !important; }
+  }
+
+  :root {
+    --bg: #f2efe6;
+    --surface: #ffffff;
+    --surface-2: #ebe7da;
+    --ink: #1c1b17;
+    --ink-dim: #6b6656;
+    --rule: #d9d3c0;
+    --green: #00693e;
+    --blue: #00558c;
+    --good: #1a7a3c;
+    --bad: #c8102e;
+    --signboard: #ffffff;
+    --shadow: 0 1px 0 rgba(0,0,0,0.05), 0 8px 20px -12px rgba(0,0,0,0.25);
+    --focus: #00558c;
+  }
+
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --bg: #141513;
+      --surface: #1d1f1c;
+      --surface-2: #262823;
+      --ink: #f0ede2;
+      --ink-dim: #a29c88;
+      --rule: #35362e;
+      --good: #4fbd7a;
+      --bad: #ff6b7a;
+      --focus: #7fc4ff;
+      --signboard: #e8e5da;
+      --shadow: 0 1px 0 rgba(0,0,0,0.4), 0 12px 28px -14px rgba(0,0,0,0.6);
+    }
+  }
+  :root[data-theme="dark"] {
+    --bg: #141513; --surface: #1d1f1c; --surface-2: #262823; --ink: #f0ede2; --ink-dim: #a29c88;
+    --rule: #35362e; --good: #4fbd7a; --bad: #ff6b7a; --focus: #7fc4ff; --signboard: #e8e5da;
+    --shadow: 0 1px 0 rgba(0,0,0,0.4), 0 12px 28px -14px rgba(0,0,0,0.6);
+  }
+  :root[data-theme="light"] {
+    --bg: #f2efe6; --surface: #ffffff; --surface-2: #ebe7da; --ink: #1c1b17; --ink-dim: #6b6656;
+    --rule: #d9d3c0; --good: #1a7a3c; --bad: #c8102e; --focus: #00558c; --signboard: #ffffff;
+    --shadow: 0 1px 0 rgba(0,0,0,0.05), 0 8px 20px -12px rgba(0,0,0,0.25);
+  }
+
+  * { box-sizing: border-box; }
+  html, body { margin: 0; padding: 0; }
+  body {
+    background: var(--bg);
+    color: var(--ink);
+    font-family: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+    line-height: 1.45;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  .display {
+    font-family: "Bahnschrift", "Segoe UI Semibold", "Arial Narrow", "Helvetica Neue", sans-serif;
+    font-weight: 700;
+    letter-spacing: 0.01em;
+  }
+  .label {
+    font-family: "Bahnschrift", "Segoe UI Semibold", "Arial Narrow", "Helvetica Neue", sans-serif;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    font-weight: 600;
+  }
+  .mono { font-family: ui-monospace, "SF Mono", Consolas, monospace; font-variant-numeric: tabular-nums; }
+
+  a { color: var(--blue); }
+  :root[data-theme="dark"] a { color: #7fc4ff; }
+  @media (prefers-color-scheme: dark) { a { color: #7fc4ff; } }
+  :root[data-theme="light"] a { color: var(--blue); }
+
+  button { font: inherit; color: inherit; }
+  button:focus-visible, a:focus-visible { outline: 3px solid var(--focus); outline-offset: 2px; }
+
+  .shell { max-width: 780px; margin: 0 auto; padding: 0 20px 64px; }
+
+  header.top {
+    position: sticky; top: 0; z-index: 5;
+    background: linear-gradient(180deg, var(--green) 0%, var(--green) 82%, transparent 100%);
+    margin: 0 -20px 22px; padding: 16px 20px 0;
+  }
+  .top-inner { max-width: 780px; margin: 0 auto; }
+  .title-row { display: flex; align-items: baseline; justify-content: space-between; gap: 12px; flex-wrap: wrap; }
+  .title-row h1 { margin: 0; color: #fff; font-size: clamp(1.3rem, 1rem + 1.6vw, 1.9rem); text-transform: uppercase; }
+  .subtitle { color: #e4f2e9; font-size: 0.8rem; margin: 2px 0 12px; }
+
+  nav.tabs { display: flex; gap: 6px; }
+  nav.tabs button {
+    appearance: none; border: none;
+    background: rgba(255,255,255,0.14); color: #fff;
+    padding: 10px 14px 12px; border-radius: 8px 8px 0 0; cursor: pointer;
+    font-family: "Bahnschrift", "Segoe UI Semibold", "Arial Narrow", sans-serif;
+    text-transform: uppercase; letter-spacing: 0.05em; font-size: 0.82rem; font-weight: 600;
+    transition: background 0.15s ease;
+  }
+  nav.tabs button:hover { background: rgba(255,255,255,0.24); }
+  nav.tabs button[aria-selected="true"] { background: var(--bg); color: var(--green); }
+  :root[data-theme="dark"] nav.tabs button[aria-selected="true"] { color: #7fe0a8; }
+  @media (prefers-color-scheme: dark) { nav.tabs button[aria-selected="true"] { color: #7fe0a8; } }
+  :root[data-theme="light"] nav.tabs button[aria-selected="true"] { color: var(--green); }
+
+  section.panel[hidden] { display: none; }
+  .intro { color: var(--ink-dim); font-size: 0.92rem; max-width: 62ch; margin: 0 0 18px; }
+
+  .quiz-hud { display: flex; align-items: center; justify-content: space-between; gap: 12px; margin-bottom: 16px; }
+  .progress-track { flex: 1; height: 6px; background: var(--rule); border-radius: 4px; overflow: hidden; }
+  .progress-fill { height: 100%; background: var(--green); width: 0%; transition: width 0.25s ease; }
+  .score-chip {
+    flex-shrink: 0; background: var(--surface); border: 1px solid var(--rule);
+    border-radius: 999px; padding: 5px 12px; font-size: 0.82rem; box-shadow: var(--shadow);
+  }
+  .score-chip b.good { color: var(--good); }
+
+  .qcard {
+    background: var(--surface); border: 1px solid var(--rule); border-radius: 14px;
+    box-shadow: var(--shadow); padding: 26px 24px 22px;
+  }
+  .qcard .eyebrow { color: var(--ink-dim); font-size: 0.75rem; margin-bottom: 10px; }
+  .rules-question { font-size: 1.15rem; font-weight: 600; margin: 0 0 20px; text-wrap: balance; }
+
+  /* Sign presented on a neutral board, like a real exam plate */
+  .sign-stage {
+    display: flex; justify-content: center; align-items: center;
+    background: var(--signboard);
+    border: 1px solid var(--rule);
+    border-radius: 10px;
+    padding: 24px;
+    margin: 4px 0 22px;
+    min-height: 240px;
+  }
+  /* SVGs have tiny intrinsic sizes; force the box and let object-fit scale them up. */
+  .sign-stage img {
+    display: block;
+    width: 100%;
+    height: 200px;
+    object-fit: contain;
+  }
+
+  .options { display: grid; gap: 10px; list-style: none; margin: 0; padding: 0; }
+  .options button {
+    width: 100%; text-align: left;
+    background: var(--surface-2); border: 1px solid var(--rule); border-radius: 10px;
+    padding: 12px 14px; cursor: pointer; font-size: 0.96rem;
+    display: flex; align-items: center; gap: 10px;
+    transition: border-color 0.12s ease, background 0.12s ease;
+  }
+  .options button:hover:not(:disabled) { border-color: var(--blue); }
+  .options button:disabled { cursor: default; }
+  .opt-key {
+    flex-shrink: 0; width: 22px; height: 22px; border-radius: 5px;
+    border: 1px solid var(--rule); display: flex; align-items: center; justify-content: center;
+    font-size: 0.72rem; font-family: ui-monospace, monospace; color: var(--ink-dim); background: var(--surface);
+  }
+  .options button.correct { background: color-mix(in srgb, var(--good) 16%, var(--surface)); border-color: var(--good); }
+  .options button.correct .opt-key { background: var(--good); color: #fff; border-color: var(--good); }
+  .options button.incorrect { background: color-mix(in srgb, var(--bad) 14%, var(--surface)); border-color: var(--bad); }
+  .options button.incorrect .opt-key { background: var(--bad); color: #fff; border-color: var(--bad); }
+  .options button.dim { opacity: 0.55; }
+
+  .feedback {
+    margin-top: 18px; padding: 14px 16px; border-radius: 10px;
+    border: 1px solid var(--rule); background: var(--surface-2); font-size: 0.9rem;
+  }
+  .feedback .verdict {
+    font-family: "Bahnschrift", "Segoe UI Semibold", "Arial Narrow", sans-serif;
+    text-transform: uppercase; letter-spacing: 0.06em; font-size: 0.78rem; font-weight: 700;
+    margin-bottom: 6px; display: block;
+  }
+  .feedback.good .verdict { color: var(--good); }
+  .feedback.bad .verdict { color: var(--bad); }
+  .feedback .sign-name { font-weight: 600; color: var(--ink); }
+  .feedback p { margin: 6px 0 0; color: var(--ink-dim); }
+
+  .qcard-actions { display: flex; justify-content: flex-end; margin-top: 20px; }
+  .btn-primary {
+    appearance: none; border: none; background: var(--green); color: #fff;
+    padding: 11px 20px; border-radius: 8px; font-weight: 600; cursor: pointer; font-size: 0.92rem;
+  }
+  .btn-primary:hover { filter: brightness(1.08); }
+  .btn-primary:disabled { opacity: 0.4; cursor: default; }
+
+  .summary { text-align: center; padding: 30px 20px; }
+  .summary .big-score {
+    font-family: "Bahnschrift", "Segoe UI Semibold", "Arial Narrow", sans-serif;
+    font-size: 3rem; font-weight: 700;
+  }
+  .summary .verdict-line { color: var(--ink-dim); margin-bottom: 22px; }
+  .missed-list { text-align: left; margin: 22px auto 0; max-width: 56ch; display: grid; gap: 10px; }
+  .missed-list .item {
+    background: var(--surface-2); border: 1px solid var(--rule);
+    border-radius: 8px; padding: 10px 12px; font-size: 0.88rem;
+    display: flex; align-items: center; gap: 12px;
+  }
+  .missed-list .item img {
+    width: 44px; height: 44px; object-fit: contain; flex-shrink: 0;
+    background: var(--signboard); border-radius: 4px; padding: 3px;
+  }
+  .missed-list .item b { color: var(--bad); }
+
+  /* Key tab */
+  .key-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(210px, 1fr)); gap: 14px; }
+  .key-card {
+    background: var(--surface); border: 1px solid var(--rule); border-radius: 12px;
+    padding: 16px; box-shadow: var(--shadow);
+    display: flex; flex-direction: column; align-items: center; text-align: center; gap: 10px;
+  }
+  .key-card .key-img {
+    background: var(--signboard); border-radius: 6px; padding: 8px;
+    width: 100%; height: 96px;
+    display: flex; align-items: center; justify-content: center;
+  }
+  .key-card .key-img img { width: 100%; height: 100%; object-fit: contain; }
+  .key-card h3 { margin: 0; font-size: 0.92rem; }
+  .key-card p { margin: 0; font-size: 0.8rem; color: var(--ink-dim); }
+
+  footer.plate {
+    margin-top: 40px; padding-top: 16px; border-top: 1px solid var(--rule);
+    color: var(--ink-dim); font-size: 0.76rem;
+  }
+  footer.plate p { margin: 0 0 8px; }
+
+  @media (max-width: 420px) {
+    .sign-stage { min-height: 190px; padding: 16px; }
+    .sign-stage img { height: 155px; }
+    .rules-question { font-size: 1.05rem; }
+  }
+</style>
+
+<div class="shell">
+  <header class="top">
+    <div class="top-inner">
+      <div class="title-row">
+        <h1 class="display">IL Renewal Crammer</h1>
+      </div>
+      <p class="subtitle">Official MUTCD sign art &middot; graded like the real screen</p>
+      <nav class="tabs" role="tablist" aria-label="Study mode">
+        <button role="tab" id="tab-signs" aria-controls="panel-signs" aria-selected="true">Sign Quiz</button>
+        <button role="tab" id="tab-rules" aria-controls="panel-rules" aria-selected="false">Rules Quiz</button>
+        <button role="tab" id="tab-key" aria-controls="panel-key" aria-selected="false">Shape &amp; Color Key</button>
+      </nav>
+    </div>
+  </header>
+
+  <main>
+    <section class="panel" id="panel-signs" role="tabpanel" aria-labelledby="tab-signs"></section>
+    <section class="panel" id="panel-rules" role="tabpanel" aria-labelledby="tab-rules" hidden></section>
+    <section class="panel" id="panel-key" role="tabpanel" aria-labelledby="tab-key" hidden></section>
+  </main>
+
+  <footer class="plate">
+    <p><b>Sign artwork</b> is the official Manual on Uniform Traffic Control Devices (MUTCD) vector art
+    published by the U.S. Federal Highway Administration — public domain, via Wikimedia Commons. These are
+    the real signs, not redrawings.</p>
+    <p>Study aid only; not an official Illinois Secretary of State resource. Rules content (BAC 0.08, Scott's Law,
+    school-bus 20-ft rule, etc.) reflects current IL statute — confirm at
+    <a href="https://www.ilsos.gov" target="_blank" rel="noopener">ilsos.gov</a> before your test.</p>
+  </footer>
+</div>
+
+<script>
+(function () {
+  "use strict";
+
+  /* Real MUTCD sign artwork, base64 SVG data URIs. Injected at build time. */
+  var IMG = __SIGN_DATA__;
+
+  function imgTag(id, alt, cls) {
+    var src = IMG[id];
+    if (!src) return "";
+    return '<img src="' + src + '" alt="' + (alt || "") + '"' + (cls ? ' class="' + cls + '"' : "") + ' draggable="false">';
+  }
+
+  /* ================= SIGN DECK ================= */
+  var SIGNS = [
+    { id: "stop", name: "Stop (R1-1)",
+      correct: "Come to a complete stop, yield to cross traffic and pedestrians, then proceed when safe.",
+      distractors: ["Slow down and yield only if another car is present.", "Stop only if you're the first car to arrive.", "Stop is required only between 7am and 7pm."],
+      tip: "The 8-sided shape is used for nothing else on the road — you can identify it by silhouette alone, even from behind, in snow, or in fog." },
+
+    { id: "yield", name: "Yield (R1-2)",
+      correct: "Slow down and let cross traffic or pedestrians go first; stop if necessary to avoid a conflict.",
+      distractors: ["Come to a complete stop every single time.", "Speed up to merge ahead of other traffic.", "Sound your horn before proceeding."],
+      tip: "The only sign shaped like a downward-pointing triangle — shape alone tells you it's Yield, no reading required." },
+
+    { id: "rr-advance", name: "Railroad Advance Warning (W10-1)",
+      correct: "A railroad crossing is ahead — slow down, look and listen, and be ready to stop.",
+      distractors: ["A roundabout is coming up.", "The speed limit changes ahead.", "A hospital zone begins ahead."],
+      tip: "Round is used for nothing but this sign. If a road sign is a circle, it's the railroad advance warning — guaranteed." },
+
+    { id: "crossbuck", name: "Railroad Crossbuck (R15-1)",
+      correct: "You're at the actual crossing — yield to any approaching train, just like at a Yield sign.",
+      distractors: ["It's only a street name marker.", "It confirms the crossing is permanently closed.", "Only commercial trucks must stop here."],
+      tip: "The round yellow sign warns a crossing is coming; this white X at the tracks is the actual yield point." },
+
+    { id: "no-pass", name: "No Passing Zone (W14-3)",
+      correct: "Marks the start of a stretch of road where passing another vehicle is not allowed.",
+      distractors: ["Warns that a passing lane is opening up ahead.", "Marks the start of a school zone.", "Marks a designated truck route."],
+      tip: "Mounted on the LEFT shoulder facing you. The sideways-pennant shape is used for nothing else — don't mistake it for a warning diamond." },
+
+    { id: "school", name: "School Zone / Crossing (S1-1)",
+      correct: "You're entering a school zone or school crossing — watch for children and a reduced speed limit.",
+      distractors: ["Marks playground equipment, with no legal effect on driving.", "Marks a hospital zone.", "Marks a bike path with no pedestrians."],
+      tip: "The house-shaped pentagon plus fluorescent yellow-green is reserved for school, pedestrian, and bike warnings — that combo alone gives you the answer." },
+
+    { id: "merge", name: "Merge (W4-1)",
+      correct: "A lane is merging into yours from the side; yield to traffic already in your lane.",
+      distractors: ["Your lane is about to end and you must move over.", "A brand new lane is opening up beside you.", "Two-way traffic begins ahead."],
+      tip: "Merge shows two lines becoming one — it's other traffic joining you, not you being forced to move. Compare carefully against Lane Ends." },
+
+    { id: "lane-ends", name: "Lane Ends (W4-2)",
+      correct: "Your lane is ending ahead — you must merge into the adjoining lane.",
+      distractors: ["A new lane is beginning beside you.", "The road narrows permanently in both directions.", "A construction crew is working in your lane right now."],
+      tip: "Unlike Merge (others move toward you) or Added Lane (nobody moves), this one means YOU have to move over." },
+
+    { id: "added-lane", name: "Added Lane (W4-3)",
+      correct: "A new lane is beginning beside you — nobody has to merge.",
+      distractors: ["Your lane ends in 500 feet.", "The passing lane is ending ahead.", "An exit ramp is ahead."],
+      tip: "Easy to confuse with Merge or Lane Ends. Added Lane means extra room is opening up, not traffic squeezing together." },
+
+    { id: "div-begin", name: "Divided Highway Begins (W6-1)",
+      correct: "The road ahead splits into a divided highway with a median separating opposing lanes.",
+      distractors: ["The median ends and oncoming traffic returns to your side.", "A toll plaza is ahead.", "The highway ends and a local road begins."],
+      tip: "Divided Highway Begins and Ends are near-mirror images — mixing them up is one of the most common sign-ID mistakes on the test." },
+
+    { id: "div-end", name: "Divided Highway Ends (W6-2)",
+      correct: "The median ends — oncoming traffic will return to the lane right beside you.",
+      distractors: ["A new divided highway starts here.", "The speed limit increases ahead.", "Passing is now allowed for the next mile."],
+      tip: "The more dangerous of the pair: right after it, opposing traffic is sharing your side of the road again." },
+
+    { id: "two-way", name: "Two-Way Traffic (W6-3)",
+      correct: "You're entering a two-way road — oncoming traffic will be in the lane to your left.",
+      distractors: ["A divided highway begins ahead.", "A one-way street begins ahead.", "The road ahead is closed to all traffic."],
+      tip: "Usually posted right after a one-way or divided section — your cue that the protection of a median is gone." },
+
+    { id: "side-road", name: "Side Road (W2-2)",
+      correct: "A minor road joins your road from the side; traffic may enter from there.",
+      distractors: ["A road crosses yours straight through.", "A dead end is ahead.", "The road narrows ahead."],
+      tip: "Side Road shows a stem joining the main line (traffic can only join). Cross Road shows a full plus sign (traffic passes through). That stem is the whole difference." },
+
+    { id: "cross-road", name: "Cross Road (W2-1)",
+      correct: "An intersecting road crosses yours — traffic may come from either side.",
+      distractors: ["A one-lane bridge is ahead.", "A Y-intersection is ahead.", "A roundabout is ahead."],
+      tip: "Look for a full plus-sign through the diamond, not a T-stem — that's what separates it from Side Road." },
+
+    { id: "winding", name: "Winding Road (W1-5)",
+      correct: "A series of curves in alternating directions is ahead.",
+      distractors: ["A single sharp curve is ahead.", "A steep hill is ahead.", "The road ends ahead."],
+      tip: "One S-shaped squiggle means several curves. A single bend means just one (the plain Curve sign). Both are yellow diamonds — look closely at the arrow." },
+
+    { id: "curve", name: "Curve (W1-2)",
+      correct: "A single curve ahead, bending in the direction the arrow shows.",
+      distractors: ["Multiple curves ahead in alternating directions.", "A steep grade ahead.", "A merge ahead."],
+      tip: "Just one bend in the arrow means just one curve — less severe than a Winding Road sign." },
+
+    { id: "chevron", name: "Chevron Alignment (W1-8)",
+      correct: "Marks the sharp curve itself along the roadside — steer in the direction it points.",
+      distractors: ["Warns of a curve half a mile ahead.", "Marks an active construction zone.", "Indicates a one-way street."],
+      tip: "Unlike diamond warnings posted BEFORE a hazard, chevrons are posted THROUGH the curve, usually several in a row. It's a road-edge guide, not an advance warning." },
+
+    { id: "grade", name: "Steep Grade / Hill (W7-1)",
+      correct: "A steep downhill grade is ahead — trucks and heavy vehicles should gear down.",
+      distractors: ["A speed bump is ahead.", "A bridge is ahead.", "The road surface is uneven."],
+      tip: "When a percentage is shown on the plate below, that's the SLOPE steepness, not a speed limit and not a distance — a classic trap." },
+
+    { id: "deer", name: "Deer Crossing (W11-3)",
+      correct: "Deer or other large animals may cross here, especially around dawn and dusk.",
+      distractors: ["Marks a petting zoo ahead.", "Marks a no-hunting zone.", "Marks a livestock farm ahead."],
+      tip: "A real-time hazard warning, not trivia — most deer strikes happen right after this sign, at dawn or dusk, on rural roads." },
+
+    { id: "ped-x", name: "Pedestrian Crossing (W11-2)",
+      correct: "A crosswalk is ahead and pedestrians may be present — be ready to yield.",
+      distractors: ["A bike lane begins ahead.", "A school zone begins ahead.", "Pedestrians are prohibited past this point."],
+      tip: "Pedestrians have the right-of-way here whether or not crosswalk lines are actually painted on the pavement." },
+
+    { id: "bike-x", name: "Bicycle Crossing (W11-1)",
+      correct: "Bicycles may be entering or crossing the roadway ahead.",
+      distractors: ["A bike lane ends permanently ahead.", "Bicycles are prohibited past this point.", "A bike repair station is ahead."],
+      tip: "Easy to mix up with Pedestrian Crossing at a glance — check for wheels versus a walking figure." },
+
+    { id: "signal-ahead", name: "Signal Ahead (W3-3)",
+      correct: "A traffic signal is ahead, possibly hidden by a hill or curve — be ready to stop.",
+      distractors: ["A railroad signal is ahead.", "A speed camera is ahead.", "A school crossing signal is ahead."],
+      tip: "Posted when the actual light isn't visible yet from a distance. Treat it as 'be ready to brake,' not just an FYI." },
+
+    { id: "stop-ahead", name: "Stop Ahead (W3-1)",
+      correct: "A stop sign is ahead that may be hard to see in time — start slowing now.",
+      distractors: ["This intersection itself requires a stop.", "A yield sign is ahead instead of a stop.", "The stop sign here was recently removed."],
+      tip: "It's a yellow diamond containing a small octagon — that's only the advance warning. The real Stop sign is still ahead." },
+
+    { id: "dne", name: "Do Not Enter (R5-1)",
+      correct: "You may not enter this roadway from this direction.",
+      distractors: ["A one-way street where either direction is fine.", "The road ahead is closed to all traffic.", "A no-parking zone."],
+      tip: "Usually marks the wrong end of a one-way street or a freeway off-ramp. If you see it, stop and back out — don't creep forward 'just to look.'" },
+
+    { id: "wrong-way", name: "Wrong Way (R5-1a)",
+      correct: "You're heading into oncoming traffic — safely reverse direction immediately.",
+      distractors: ["A detour begins ahead.", "The road ahead has no outlet.", "Construction is ahead."],
+      tip: "The last warning before a head-on collision, posted just past a Do Not Enter on a ramp or one-way street." },
+
+    { id: "no-uturn", name: "No U-Turn (R3-4)",
+      correct: "U-turns are prohibited at this location.",
+      distractors: ["Left turns are prohibited here.", "No stopping or standing in this area.", "You may not enter this road at all."],
+      tip: "Look specifically for the curved U-shaped arrow. A straight arrow under a red slash means no left/right turn — a different sign entirely." },
+
+    { id: "advisory", name: "Advisory Speed Plate (W13-1P)",
+      correct: "A recommended safe speed for the curve or hazard above it — not a strict legal speed limit.",
+      distractors: ["The new legal speed limit starting at this point.", "The minimum speed required on this road.", "The distance in miles to the hazard ahead."],
+      tip: "It's YELLOW, so it's advisory for conditions — unlike an enforceable WHITE regulatory speed limit sign. Ignoring it can still support a careless-driving charge." },
+
+    { id: "speed-limit", name: "Speed Limit (R2-1)",
+      correct: "The maximum legal speed in ideal conditions — you can be ticketed for exceeding it.",
+      distractors: ["A suggested speed you may safely exceed in good weather.", "The minimum speed you must maintain.", "The average speed of traffic on this road."],
+      tip: "WHITE = regulatory and enforceable. Compare the YELLOW advisory plate, which is only a recommendation. Also note it's the max for IDEAL conditions — in rain or fog, driving the posted limit can still be 'too fast for conditions.'" },
+
+    { id: "work-zone", name: "Road Work Ahead (W20-1)",
+      correct: "A construction or maintenance work zone is ahead — slow down and expect workers or equipment.",
+      distractors: ["Road work was recently completed here.", "The road ahead is permanently closed.", "A rest area is ahead."],
+      tip: "ORANGE always means a temporary work zone. Illinois sets mandatory minimum fines here (about $375 first offense) and a second conviction can suspend your license." }
+  ];
+
+  /* ================= SHAPE & COLOR KEY ================= */
+  var KEY = [
+    { id: "stop", name: "Octagon · Red", meaning: "Stop. The only 8-sided sign — identifiable by silhouette alone." },
+    { id: "yield", name: "Downward Triangle", meaning: "Yield. The only upside-down triangle on the road." },
+    { id: "rr-advance", name: "Circle · Yellow", meaning: "Railroad advance warning. The only round sign." },
+    { id: "no-pass", name: "Pennant · Yellow", meaning: "No Passing Zone, posted on the left shoulder facing you." },
+    { id: "school", name: "Pentagon · Yellow-Green", meaning: "School zone, or school/pedestrian/bike crossing." },
+    { id: "deer", name: "Diamond · Yellow", meaning: "General warning: a hazard, curve, or crossing is ahead." },
+    { id: "work-zone", name: "Diamond · Orange", meaning: "Temporary condition: construction, maintenance, or a work zone." },
+    { id: "dne", name: "Circle · Red", meaning: "Prohibition. A red circle or slash always means 'you may not.'" },
+    { id: "speed-limit", name: "Rectangle · White", meaning: "Regulatory and enforceable — the law. Speed limits, turn rules, parking." },
+    { id: "advisory", name: "Plate · Yellow", meaning: "Advisory only — a recommendation for conditions, not an enforceable limit." },
+    { id: "chevron", name: "Vertical rectangle · Yellow", meaning: "Alignment marker placed AT the hazard, not in advance of it." }
+  ];
+
+  /* ================= RULES DECK ================= */
+  var RULES = [
+    { q: "What is the legal blood alcohol concentration (BAC) limit for drivers 21 and older in Illinois?",
+      correct: "0.08%", distractors: ["0.05%", "0.10%", "0.12%"],
+      exp: "0.08% is the limit for adult drivers. Drivers under 21 face zero tolerance — see the next question." },
+    { q: "What BAC is legally allowed for a driver under 21 in Illinois?",
+      correct: "Any detectable trace of alcohol is illegal (zero tolerance)", distractors: ["0.08%", "0.05%", "0.02%"],
+      exp: "Illinois' zero-tolerance law means ANY trace of alcohol can trigger suspension for a driver under 21, well below the 0.08% adult limit." },
+    { q: "A school bus ahead has stopped with red lights flashing, on an ordinary two-lane road. What must you do?",
+      correct: "Stop at least 20 feet away — traffic in BOTH directions must stop", distractors: ["Only vehicles behind the bus must stop", "You may pass at 10 mph or less", "Only oncoming traffic must stop"],
+      exp: "On roads with fewer than 4 lanes, traffic in both directions stops at least 20 feet from the bus until the red lights stop flashing." },
+    { q: "You're on a divided highway with a raised median, opposite a school bus stopped on the other side with lights flashing. Must you stop?",
+      correct: "No — only traffic on the bus's side of the median must stop", distractors: ["Yes, always, in every case", "Only if you're driving a truck", "You must stop only at night"],
+      exp: "A physical median (grass or barrier) exempts oncoming traffic. Careful: a center TURN LANE does not count as a median." },
+    { q: "How close can you legally park to a fire hydrant in Illinois?",
+      correct: "No closer than 15 feet", distractors: ["No closer than 5 feet", "No closer than 10 feet", "No closer than 25 feet"],
+      exp: "Illinois law prohibits parking within 15 feet of a fire hydrant." },
+    { q: "At night, how close must an ONCOMING vehicle be before you must dim your high beams?",
+      correct: "Within 500 feet", distractors: ["Within 100 feet", "Within 1,000 feet", "Within 50 feet"],
+      exp: "Illinois requires dimming within 500 feet of an oncoming vehicle, and within 300 feet of a vehicle you're following. The two distances differ — a common trap." },
+    { q: "What does Illinois' Scott's Law (the \"Move Over\" law) require?",
+      correct: "Change lanes away from — or slow down for — any stopped emergency or maintenance vehicle with flashing lights", distractors: ["It only applies to police vehicles", "It only applies on highways with 3+ lanes", "It only applies after dark"],
+      exp: "Scott's Law covers police, fire, ambulance, tow, and road-maintenance vehicles displaying flashing lights. Violations carry steep fines and possible suspension." },
+    { q: "Can a driver age 19 or older legally use a hands-free cell phone while driving in Illinois?",
+      correct: "Yes — hands-free/voice-operated use is allowed at 19 and up", distractors: ["No, all phone use is banned for everyone", "Only with a special permit", "Only during a declared emergency"],
+      exp: "Hand-held use is banned for ALL drivers. Hands-free is allowed at 19+. Drivers under 19 may not use a phone at all, except in a genuine emergency." },
+    { q: "You're stopped at a red light with no posted signs. Can you turn right on red?",
+      correct: "Yes, after a complete stop and yielding, unless a sign prohibits it", distractors: ["Never, it's illegal statewide", "Only between 9am and 5pm", "Only if a police officer waves you through"],
+      exp: "Right on red is legal statewide after a full stop and yield — unless a \"No Turn on Red\" sign is posted at that intersection." },
+    { q: "What following-distance rule is taught as the baseline in normal conditions?",
+      correct: "The 3-second rule", distractors: ["The 1-second rule", "The 10-second rule", "Half a car length"],
+      exp: "Three seconds is the baseline gap. Increase it in rain, fog, or snow, and behind large trucks that block your view." },
+    { q: "Two vehicles reach a four-way stop at exactly the same time, from different roads. Who goes first?",
+      correct: "The driver on the RIGHT has the right-of-way", distractors: ["The driver on the left goes first", "Whoever accelerates first", "The larger vehicle goes first"],
+      exp: "When two vehicles arrive simultaneously, the driver on the left yields to the driver on their right." },
+    { q: "Does a pedestrian have the right-of-way at an intersection crosswalk with NO painted lines?",
+      correct: "Yes — every intersection is a legal crosswalk, marked or not", distractors: ["No, only marked crosswalks count", "Only if a crossing guard is present", "Only in a business district"],
+      exp: "Unmarked crosswalks exist at essentially every intersection, and pedestrians have the right-of-way in them." },
+    { q: "A traffic signal is flashing RED. What do you do?",
+      correct: "Treat it exactly like a stop sign — stop, then go when safe", distractors: ["Treat it like a yield sign", "Speed up; it means the signal is broken", "Wait for it to turn solid red before stopping"],
+      exp: "Flashing red = stop-sign rules. Flashing YELLOW means proceed with caution, no stop required. Don't swap them." },
+    { q: "When is it legal to pass another vehicle on the right?",
+      correct: "Only with two or more lanes going your way, or when the car ahead is turning left and there's room", distractors: ["It's always illegal to pass on the right", "Only on interstate highways", "Anytime traffic is moving slowly"],
+      exp: "Passing on the right is legal only in specific situations — and never by driving onto the shoulder." },
+    { q: "How are fines affected for speeding in an active work zone with workers present?",
+      correct: "Mandatory and steep — a minimum fine around $375 for a first offense", distractors: ["Fines are cut in half to encourage slow driving", "Fines are the same as anywhere else", "Only a warning is issued the first time"],
+      exp: "Illinois sets mandatory minimums in work zones — roughly $375 first offense, $1,000 for a second — and a second conviction can suspend your license." },
+    { q: "What is required to legally drive in Illinois, insurance-wise?",
+      correct: "You must carry at least the state-minimum liability insurance at all times", distractors: ["Insurance is optional if you post a cash bond", "Only required for vehicles over 10 years old", "Only required for drivers under 25"],
+      exp: "Illinois is a compulsory-insurance state. Driving uninsured means fines, suspension, and possible impoundment — even with no accident." },
+
+    { q: "You're parking facing DOWNHILL on a street with a curb. Which way do you turn your front wheels?",
+      correct: "Toward the curb", distractors: ["Away from the curb", "Straight ahead", "It doesn't matter if the parking brake is set"],
+      exp: "Downhill: wheels TOWARD the curb, so if the brakes fail the car rolls into the curb and stops. Uphill is the opposite — see the next question. This pair is one of the most-missed items on the whole test." },
+
+    { q: "You're parking facing UPHILL on a street with a curb. Which way do you turn your front wheels?",
+      correct: "Away from the curb", distractors: ["Toward the curb", "Straight ahead", "Whichever way the road slopes"],
+      exp: "Uphill WITH a curb: wheels AWAY from the curb, so the car rolls back and the tire catches the curb. Memory hook: uphill = away, downhill = toward." },
+
+    { q: "You're parking on a hill with NO curb. Which way do you turn your front wheels?",
+      correct: "Toward the side of the road (the shoulder), either direction you're facing", distractors: ["Away from the road, only if facing uphill", "Straight ahead — no curb means it doesn't matter", "Toward the center of the road"],
+      exp: "With no curb there's nothing to catch the tire, so you always aim the wheels off the road — that way a runaway car rolls onto the shoulder, not into traffic." },
+
+    { q: "How far in advance must you signal a turn in a BUSINESS or RESIDENCE district in Illinois?",
+      correct: "At least 100 feet", distractors: ["At least 200 feet", "At least 50 feet", "At least 25 feet"],
+      exp: "100 feet inside a business/residence district — but 200 feet OUTSIDE one, where speeds are higher. The test likes to swap these two numbers on you." },
+
+    { q: "You approach a railroad crossing with gates down and lights flashing. Where exactly must you stop?",
+      correct: "Between 15 and 50 feet from the nearest rail", distractors: ["Within 5 feet of the nearest rail", "At least 100 feet back", "Anywhere, as long as you're off the tracks"],
+      exp: "Not closer than 15 feet, not farther than 50 feet from the nearest rail. Both bounds matter — stopping too close is just as wrong as too far." },
+
+    { q: "You're entering a roundabout. Who has the right-of-way?",
+      correct: "Traffic already circulating in the roundabout — you yield before entering", distractors: ["You do, once you signal", "Whoever is going faster", "The vehicle on the right, as at a four-way stop"],
+      exp: "Always yield to traffic already in the circle, and go counterclockwise. Never stop inside the roundabout except to avoid a crash." },
+
+    { q: "You have a FLASHING YELLOW ARROW for a left turn. What does it mean?",
+      correct: "You may turn left, but you must yield to oncoming traffic and pedestrians", distractors: ["You have a protected left turn — oncoming traffic is stopped", "Stop completely, then turn when clear", "Left turns are prohibited at this time"],
+      exp: "Flashing yellow arrow = UNprotected turn: you may go, but oncoming traffic has the right-of-way. A SOLID GREEN arrow is the protected one. Confusing these causes real head-on left-turn crashes." },
+
+    { q: "Two cars reach an UNCONTROLLED intersection (no signs or signals). One clearly got there first. Who goes?",
+      correct: "The vehicle that arrived first", distractors: ["The vehicle on the left, always", "The faster-moving vehicle", "Neither — both must stop completely first"],
+      exp: "First to arrive goes first. Only when you arrive at the same time does the tiebreaker kick in: yield to the driver on your right." },
+
+    { q: "How close to the curb must you park on an ordinary two-way street?",
+      correct: "Within 12 inches of the curb", distractors: ["Within 6 inches", "Within 18 inches", "Within 3 feet"],
+      exp: "Right-hand wheels parallel to and within 12 inches of the right-hand curb. A precise number the test likes to ask." }
+  ];
+
+  /* ================= ENGINE ================= */
+  function shuffle(arr) {
+    var a = arr.slice();
+    for (var i = a.length - 1; i > 0; i--) {
+      var j = Math.floor(Math.random() * (i + 1));
+      var t = a[i]; a[i] = a[j]; a[j] = t;
+    }
+    return a;
+  }
+
+  function buildOptions(item) {
+    var opts = item.distractors.slice(0, 3).map(function (d) { return { text: d, correct: false }; });
+    opts.push({ text: item.correct, correct: true });
+    return shuffle(opts);
+  }
+
+  function makeQuiz(mount, deck, cfg) {
+    var order = shuffle(deck), idx = 0, score = 0, missed = [], answered = false;
+
+    function render() {
+      if (idx >= order.length) { summary(); return; }
+      var item = order[idx];
+      var options = buildOptions(item);
+      answered = false;
+
+      mount.innerHTML =
+        '<div class="quiz-hud">' +
+          '<div class="progress-track"><div class="progress-fill" style="width:' + Math.round((idx / order.length) * 100) + '%"></div></div>' +
+          '<div class="score-chip mono">Correct <b class="good">' + score + '</b> / ' + idx + '</div>' +
+        '</div>' +
+        '<div class="qcard">' +
+          '<div class="eyebrow label">' + cfg.modeLabel + ' &middot; ' + (idx + 1) + ' of ' + order.length + '</div>' +
+          cfg.prompt(item) +
+          '<ul class="options"></ul>' +
+          '<div class="feedback-slot"></div>' +
+          '<div class="qcard-actions"><button class="btn-primary" id="next-btn" disabled>Next</button></div>' +
+        '</div>';
+
+      var list = mount.querySelector(".options");
+      var letters = ["A", "B", "C", "D"];
+      options.forEach(function (o, i) {
+        var li = document.createElement("li");
+        var btn = document.createElement("button");
+        btn.type = "button";
+        btn.innerHTML = '<span class="opt-key">' + letters[i] + '</span><span>' + o.text + '</span>';
+        btn.addEventListener("click", function () { answer(o, options, item); });
+        li.appendChild(btn);
+        list.appendChild(li);
+      });
+
+      mount.querySelector("#next-btn").addEventListener("click", function () { idx++; render(); });
+    }
+
+    function answer(chosen, options, item) {
+      if (answered) return;
+      answered = true;
+      var right = chosen.correct;
+      if (right) { score++; } else { missed.push(item); }
+
+      var buttons = mount.querySelectorAll(".options button");
+      Array.prototype.forEach.call(buttons, function (btn, i) {
+        btn.disabled = true;
+        var o = options[i];
+        if (o.correct) btn.classList.add("correct");
+        else if (o === chosen) btn.classList.add("incorrect");
+        else btn.classList.add("dim");
+      });
+
+      mount.querySelector(".feedback-slot").innerHTML =
+        '<div class="feedback ' + (right ? "good" : "bad") + '">' +
+          '<span class="verdict">' + (right ? "Correct" : "Not quite") + '</span>' +
+          (item.name ? '<div class="sign-name">' + item.name + '</div>' : "") +
+          '<p>' + (item.tip || item.exp) + '</p>' +
+        '</div>';
+
+      var next = mount.querySelector("#next-btn");
+      next.disabled = false;
+      next.focus();
+    }
+
+    function summary() {
+      var pct = Math.round((score / order.length) * 100);
+      var pass = pct >= 80;
+      var missedHTML = missed.length
+        ? '<div class="missed-list">' + missed.map(function (m) {
+            return '<div class="item">' +
+              (m.id ? imgTag(m.id, "") : "") +
+              '<span><b>Missed:</b> ' + (m.name || m.q) + '</span></div>';
+          }).join("") + '</div>'
+        : '<p class="intro" style="margin-top:18px;text-align:center">Clean sweep — no misses.</p>';
+
+      mount.innerHTML =
+        '<div class="qcard summary">' +
+          '<div class="big-score mono">' + score + ' / ' + order.length + '</div>' +
+          '<div class="verdict-line">' + pct + '% &middot; ' +
+            (pass ? "That's a pass — the real exam needs 80%." : "Below the 80% the real exam requires. Review and run it back.") +
+          '</div>' +
+          '<button class="btn-primary" id="restart-btn">Shuffle &amp; Retry</button>' +
+          missedHTML +
+        '</div>';
+
+      mount.querySelector("#restart-btn").addEventListener("click", function () {
+        order = shuffle(deck); idx = 0; score = 0; missed = []; render();
+      });
+    }
+
+    render();
+  }
+
+  /* ================= INIT ================= */
+  var pSigns = document.getElementById("panel-signs");
+  var pRules = document.getElementById("panel-rules");
+  var pKey = document.getElementById("panel-key");
+
+  // Only quiz signs whose artwork actually loaded.
+  var availableSigns = SIGNS.filter(function (s) { return !!IMG[s.id]; });
+
+  pSigns.innerHTML = '<p class="intro">Same format as the SOS computer screen: the sign appears, you pick its meaning. Artwork is the official federal MUTCD vector art — exactly what you\'ll see on the test.</p><div id="m-signs"></div>';
+  makeQuiz(document.getElementById("m-signs"), availableSigns, {
+    modeLabel: "Sign",
+    prompt: function (item) {
+      return '<div class="sign-stage">' + imgTag(item.id, "Road sign to identify") + '</div>';
+    }
+  });
+
+  pRules.innerHTML = '<p class="intro">The trick questions people miss on renewal: exact numbers, right-of-way, and Illinois-specific laws.</p><div id="m-rules"></div>';
+  makeQuiz(document.getElementById("m-rules"), RULES, {
+    modeLabel: "Rule",
+    prompt: function (item) { return '<p class="rules-question">' + item.q + '</p>'; }
+  });
+
+  pKey.innerHTML =
+    '<p class="intro">Before you even read the symbol, a sign\'s shape and color already narrow down its meaning. This is your fallback when you don\'t recognize the picture.</p>' +
+    '<div class="key-grid">' +
+    KEY.filter(function (k) { return !!IMG[k.id]; }).map(function (k) {
+      return '<div class="key-card">' +
+        '<div class="key-img">' + imgTag(k.id, "") + '</div>' +
+        '<h3 class="display">' + k.name + '</h3><p>' + k.meaning + '</p></div>';
+    }).join("") +
+    '</div>';
+
+  /* Tabs */
+  var tabs = [
+    { btn: document.getElementById("tab-signs"), panel: pSigns },
+    { btn: document.getElementById("tab-rules"), panel: pRules },
+    { btn: document.getElementById("tab-key"), panel: pKey }
+  ];
+  tabs.forEach(function (t) {
+    t.btn.addEventListener("click", function () {
+      tabs.forEach(function (o) {
+        o.btn.setAttribute("aria-selected", o === t ? "true" : "false");
+        o.panel.hidden = o !== t;
+      });
+    });
+  });
+})();
+</script>

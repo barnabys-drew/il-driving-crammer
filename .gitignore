@@ -1,0 +1,5 @@
+# build/preview artifacts
+*.png
+preview*.html
+contact*.html
+__pycache__/
