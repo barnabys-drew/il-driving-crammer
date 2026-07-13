@@ -18,6 +18,9 @@
     --signboard: #ffffff;
     --shadow: 0 1px 0 rgba(0,0,0,0.05), 0 8px 20px -12px rgba(0,0,0,0.25);
     --focus: #00558c;
+    /* Gutter. The standalone build widens this to clear a phone's safe area,
+       so the header's full-bleed offset has to track it rather than hardcode 20px. */
+    --pad: 20px;
   }
 
   @media (prefers-color-scheme: dark) {
@@ -77,12 +80,14 @@
   button { font: inherit; color: inherit; }
   button:focus-visible, a:focus-visible { outline: 3px solid var(--focus); outline-offset: 2px; }
 
-  .shell { max-width: 780px; margin: 0 auto; padding: 0 20px 64px; }
+  /* overflow-x guard: nothing should ever scroll the page sideways on a phone. */
+  body { overflow-x: hidden; }
+  .shell { max-width: 780px; margin: 0 auto; padding: 0 var(--pad) 64px; }
 
   header.top {
     position: sticky; top: 0; z-index: 5;
     background: linear-gradient(180deg, var(--green) 0%, var(--green) 82%, transparent 100%);
-    margin: 0 -20px 22px; padding: 16px 20px 0;
+    margin: 0 calc(-1 * var(--pad)) 22px; padding: 16px var(--pad) 0;
   }
   .top-inner { max-width: 780px; margin: 0 auto; }
   .title-row { display: flex; align-items: baseline; justify-content: space-between; gap: 12px; flex-wrap: wrap; }
@@ -93,9 +98,12 @@
   nav.tabs button {
     appearance: none; border: none;
     background: rgba(255,255,255,0.14); color: #fff;
-    padding: 10px 14px 12px; border-radius: 8px 8px 0 0; cursor: pointer;
+    /* Let tabs shrink on a narrow screen instead of forcing the page wider. */
+    flex: 1 1 0; min-width: 0;
+    padding: 10px 10px 12px; border-radius: 8px 8px 0 0; cursor: pointer;
     font-family: "Bahnschrift", "Segoe UI Semibold", "Arial Narrow", sans-serif;
     text-transform: uppercase; letter-spacing: 0.05em; font-size: 0.82rem; font-weight: 600;
+    line-height: 1.15;
     transition: background 0.15s ease;
   }
   nav.tabs button:hover { background: rgba(255,255,255,0.24); }
@@ -107,7 +115,7 @@
   section.panel[hidden] { display: none; }
   .intro { color: var(--ink-dim); font-size: 0.92rem; max-width: 62ch; margin: 0 0 18px; }
 
-  .quiz-hud { display: flex; align-items: center; justify-content: space-between; gap: 12px; margin-bottom: 16px; }
+  .quiz-hud { display: flex; align-items: center; justify-content: space-between; gap: 12px; margin-bottom: 16px; flex-wrap: wrap; }
   .progress-track { flex: 1; height: 6px; background: var(--rule); border-radius: 4px; overflow: hidden; }
   .progress-fill { height: 100%; background: var(--green); width: 0%; transition: width 0.25s ease; }
   .score-chip {
@@ -224,10 +232,24 @@
   }
   footer.plate p { margin: 0 0 8px; }
 
-  @media (max-width: 420px) {
-    .sign-stage { min-height: 190px; padding: 16px; }
-    .sign-stage img { height: 155px; }
+  @media (max-width: 480px) {
+    .sign-stage { min-height: 190px; padding: 14px; }
+    .sign-stage img { height: 165px; }
     .rules-question { font-size: 1.05rem; }
+
+    /* Reclaim gutter width; keep tap targets comfortable. */
+    .qcard { padding: 18px 14px 16px; border-radius: 12px; }
+    .options button { padding: 14px 12px; font-size: 0.95rem; }
+    .btn-primary { padding: 13px 22px; }
+
+    nav.tabs { gap: 4px; }
+    nav.tabs button { font-size: 0.68rem; letter-spacing: 0.02em; padding: 9px 4px 11px; }
+
+    .title-row h1 { font-size: 1.35rem; }
+    .subtitle { font-size: 0.74rem; }
+    .quiz-hud { gap: 8px; }
+    .score-chip { font-size: 0.76rem; padding: 4px 10px; }
+    .key-grid { grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); gap: 10px; }
   }
 </style>
 

@@ -4,6 +4,19 @@ A practice tool for the Illinois driver's license **written renewal exam**, buil
 format of the actual Secretary of State computer test: a sign appears, you pick its meaning from
 four choices, and you're graded immediately.
 
+**Live: https://barnabys-drew.github.io/il-driving-crammer/**
+
+## On your phone
+
+Open the link above, then install it to your home screen — it runs like an app and works with no
+signal, so you can drill in line at the DMV.
+
+- **iPhone (Safari):** Share button → **Add to Home Screen**
+- **Android (Chrome):** ⋮ menu → **Install app** / **Add to Home screen**
+
+Everything (all 29 signs included) is baked into a single ~140 KB page with zero external requests,
+and a service worker caches it, so after the first load it works fully **offline**.
+
 ## What's in it
 
 Three tabs:
@@ -52,16 +65,23 @@ likes to swap on you.
 
 ## Build
 
-The published page is a single self-contained HTML file — every sign is embedded as a base64 data
-URI, so it works offline and has no external requests.
-
 ```sh
-python3 build.py     # assets/*.svg + template.html -> il-driving-crammer.html
+python3 build.py
 ```
 
-Edit `template.html` (the quiz decks live in the `SIGNS` and `RULES` arrays near the top of the
-`<script>`), then re-run the build. Do not edit `il-driving-crammer.html` directly — it is generated
-and will be overwritten.
+One source, two outputs:
+
+| Output | What it's for |
+| --- | --- |
+| `docs/index.html` | The standalone site served by GitHub Pages (from `main` → `/docs`). Installable, offline-capable. |
+| `il-driving-crammer.html` | A body fragment for a Claude Artifact, which supplies its own `<html>`/`<head>`. |
+
+`build.py` also stamps `docs/sw.js` with a hash of the page, so a rebuild automatically invalidates
+the old offline cache on people's phones.
+
+Edit **`template.html`** — the quiz decks are the `SIGNS` and `RULES` arrays near the top of the
+`<script>` — then re-run the build. Do not edit `docs/index.html` or `il-driving-crammer.html`
+directly; both are generated and will be overwritten.
 
 ## Caveat
 

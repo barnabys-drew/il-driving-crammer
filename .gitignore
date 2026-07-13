@@ -1,5 +1,8 @@
-# build/preview artifacts
-*.png
+# local screenshots / scratch renders.
+# Rooted (/*.png) so it does NOT swallow the PWA icons in docs/icons/.
+/*.png
 preview*.html
 contact*.html
+frame.html
+probe.html
 __pycache__/
